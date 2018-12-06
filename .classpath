@@ -11,5 +11,6 @@
 	<classpathentry kind="lib" path="libs/jasperreports-5.5.1.jar"/>
 	<classpathentry kind="lib" path="libs/poi-3.9.jar"/>
 	<classpathentry kind="lib" path="libs/servlet-api-2.4.jar"/>
+	<classpathentry kind="lib" path="libs/mysql-connector-java-8.0.13.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -1,0 +1,3 @@
+[submodule "SQLConnection.java"]
+	path = SQLConnection.java
+	url = https://github.com/TheBrokenFlyer/SQLConnection.java
