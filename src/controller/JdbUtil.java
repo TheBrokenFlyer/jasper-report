@@ -15,15 +15,15 @@ public class JdbUtil {
 	private static Connection _conn = null;
 	final   static _credentials credentials = new _credentials("127.0.0.1", -1, "root", null, "dtbsql");
 	
-	protected static Connection getConnection() throws SQLException, NullPointerException {
-		if(_conn != null) try {
+	protected static Connection getConnection() throws Exception {
+		if(_conn == null) try {
 			Class.forName(serverDriverClass).newInstance();
 			_conn = DriverManager.getConnection(
 					credentials.toString(),
 					credentials.getUsername(),
 					credentials.getPassword());
+			if(_conn==null) throw new java.lang.Exception("Error while connecting!");
 			debug("succesfully connected to " +credentials.toString());
-			return _conn;
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException exp) {
 			throw new NullPointerException("An internal error occurred.");
 		} catch (SQLException exp) {
@@ -38,16 +38,15 @@ public class JdbUtil {
 		return _conn;
 	}
 	
-	public static List<Item> getItems() throws NullPointerException, SQLException {
-		ResultSet query = _conn.prepareStatement("SELECT `number` AS `nb`, `name` AS `name`;").executeQuery();
-		JdbUtil.close();
+	public static List<Item> getItems() throws Exception {
+		getConnection();
+		ResultSet query = _conn.prepareStatement("SELECT `number` AS `nb`, `name` AS `name` FROM `tb`;").executeQuery();
 		List<Item> results = new ArrayList<Item>(0);
 		while(query.next()) results.add(new Item(query.getInt(1),query.getString(2)));
 		query.close();
+		JdbUtil.close();
 		return results;
 	}
 	
-	private static void debug(String message) {
-		System.out.println("JdbUtil.debug:\t" +message);
-	}
+	private static void debug(String message) { System.out.println("JdbUtil.debug:\t" +message); }
 }
